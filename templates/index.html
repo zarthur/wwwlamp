@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <%include file='head_base.html'/>
+        <title>Controller</title>
+    </head>
+    <body>
+        <div data-role="page" id="page1">
+            <div data-theme="a" data-role="header">
+                <h2>
+                    Lamp Control
+                </h2>
+            </div>
+            <div data-role="content">
+                <form action="switch0" method="post">
+                    <input data-theme="b" value="Living Room" type="submit" />
+                </form>
+                <form action="switch1" method="post">
+                    <input data-theme="b" value="Bedroom" type="submit" />
+                </form>
+                <form action="switch_all" method="post">
+                    <input data-theme="b" value="Toggle Both" type="submit" />
+                </form>
+            </div>
+        </div>
+    </body>
+</html>
