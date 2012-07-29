@@ -24,7 +24,7 @@ Arduino Pin Configuration
 Files
 -----
 - server.py - Python file to connect to Arduino and setup webserver
-- relay_control.ino - Modified version of Maurice Ribble's code to control a relay from the Arduino board.  Original code at [here]{http://www.glacialwanderer.com/_blog/blog2008/04_April/relay.pde}
+- relay_control.ino - Modified version of Maurice Ribble's code to control a relay from the Arduino board.  Original code [here](http://www.glacialwanderer.com/_blog/blog2008/04_April/relay.pde)
 - templates/ - Files for website
 
 
