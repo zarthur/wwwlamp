@@ -8,20 +8,37 @@
         <div data-role="page" id="page1">
             <div data-theme="a" data-role="header">
                 <h2>
-                    Lamp Control
+                    wwwlamp
                 </h2>
             </div>
-            <div data-role="content">
-                <form action="switch0" method="post">
-                    <input data-theme="b" value="Living Room" type="submit" />
-                </form>
-                <form action="switch1" method="post">
-                    <input data-theme="b" value="Bedroom" type="submit" />
-                </form>
-                <form action="switch_all" method="post">
-                    <input data-theme="b" value="Toggle Both" type="submit" />
-                </form>
+            <div data-role="content" style="padding: 10px">
+                <h3 align="center">
+                    Lamps
+                </h3>
+                <div data-role="fieldcontain">
+                    <fieldset data-role="controlgroup" data-type="vertical">
+                        % if states['living']:
+                            <input name="checkbox1" id="checkbox1" type="checkbox" value="true" checked="yes" />
+                        % else:
+                            <input name="checkbox1" id="checkbox1" type="checkbox" value="true" />
+                        % end                            
+                        <label for="checkbox1">
+                            Living Room
+                        </label>
+                        % if states['bedroom']:
+                            <input name="checkbox2" id="checkbox2" type="checkbox" value="true" checked="yes" />
+                        % else:
+                            <input name="checkbox2" id="checkbox2" type="checkbox" value="true" />
+                        % end
+                        <label for="checkbox2">
+                            Bedroom
+                        </label>
+                    </fieldset>
+                </div>
             </div>
         </div>
+        <script>
+            //App custom javascript
+        </script>
     </body>
 </html>

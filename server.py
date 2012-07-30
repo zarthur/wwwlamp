@@ -26,10 +26,31 @@ class Control(object):
             print("Invalid device")
             sys.exit()
 
+        self.board_states = {bedroom: False, living: False}
+        self.web_states = {bedroom: False, living: False}
+
     @cherrypy.expose
     def index(self):
         """index.html page for site"""
         return render('index.html')
+
+    @cherrypy.expose
+    def toggle(self, *args, **kwargs):
+        living = kwargs.get('checkbox1', '')
+        bedroom = kwargs.get('checkbox2', '')
+
+        self.web_states['living'] = True if living.lower == 'true' else False
+        self.web_states['bedroom'] = True if bedroom.lower == 'true' else False
+
+        if self.board_states['living'] != self.web_states['living']:
+            self.ser.write('0'.encode())
+            self.board_states['living'] = self.web_states['living']
+
+        if self.board_states['bedroom'] != self.web_states['bedroom']:
+            self.ser.write('1'.encode())
+            self.board_states['bedroom'] = self.web_states['bedroom']
+
+        return render('index.html', states=self.web_states)
 
     @cherrypy.expose
     def switch0(self, *args, **kwargs):
