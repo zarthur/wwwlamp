@@ -18,29 +18,27 @@
                 <form action="toggle" method="post">
                     <div data-role="fieldcontain">
                         <fieldset data-role="controlgroup" data-type="vertical">
-                            % if states['living']:
-                                <input name="checkbox1" id="checkbox1" 
-                                    type="checkbox" value="true" checked="yes" />
-                            % else:
-                                <input name="checkbox1" id="checkbox1" 
-                                    type="checkbox" value="true" />
-                            % end                            
+                            <input name="checkbox1" id="checkbox1" 
+                                    type="checkbox" value="true" 
+                                % if states['living']:    
+                                    checked="yes" 
+                                % endif
+                            />
                             <label for="checkbox1">
                                 Living Room
                             </label>
-                            % if states['bedroom']:
-                                <input name="checkbox2" id="checkbox2" 
-                                    type="checkbox" value="true" checked="yes" />
-                            % else:
-                                <input name="checkbox2" id="checkbox2" 
-                                    type="checkbox" value="true" />
-                            % end
+                            <input name="checkbox2" id="checkbox2" 
+                                    type="checkbox" value="true" 
+                                % if states['bedroom']:
+                                    checked="yes"
+                                % endif
+                            />
                             <label for="checkbox2">
                                 Bedroom
                             </label>
                         </fieldset>
                     </div>
-                    <input type="submit" value="submit">
+                    <input type="submit" value="Submit">
                </form> 
             </div>
         </div>

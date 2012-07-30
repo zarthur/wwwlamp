@@ -1,4 +1,5 @@
 import cherrypy
+import io
 import os
 import serial
 import sys
@@ -14,62 +15,47 @@ def render(*args, **kwargs):
     tmpl = lookup.get_template(page)
     return tmpl.render(**kwargs)
 
-
 class Control(object):
     """Class defining structure of website and providing
     methods to control relays via a serial port
     """
     def __init__(self, port):
         try:
-            self.ser = serial.Serial(port, 9600)
+            self.ser = serial.Serial(port, 9600) if port != 'DEBUG' \
+                        else io.StringIO('')
         except:
             print("Invalid device")
             sys.exit()
 
-        self.board_states = {bedroom: False, living: False}
-        self.web_states = {bedroom: False, living: False}
+        self._debug = True if port == 'DEBUG' else False
+        
+        self.board_states = {'bedroom': False, 'living': False}
+        self.web_states = {'bedroom': False, 'living': False}
 
     @cherrypy.expose
     def index(self):
         """index.html page for site"""
-        return render('index.html')
+        return render('index.html', states=self.web_states)
 
     @cherrypy.expose
     def toggle(self, *args, **kwargs):
         living = kwargs.get('checkbox1', '')
         bedroom = kwargs.get('checkbox2', '')
-
-        self.web_states['living'] = True if living.lower == 'true' else False
-        self.web_states['bedroom'] = True if bedroom.lower == 'true' else False
-
+        
+        self.web_states['living'] = True if living.lower() == 'true' else False
+        self.web_states['bedroom'] = True if bedroom.lower() == 'true' else False
+        
         if self.board_states['living'] != self.web_states['living']:
-            self.ser.write('0'.encode())
+            if not self._debug:
+                self.ser.write('0'.encode())
             self.board_states['living'] = self.web_states['living']
 
         if self.board_states['bedroom'] != self.web_states['bedroom']:
-            self.ser.write('1'.encode())
+            if not self._debug:
+                self.ser.write('1'.encode())
             self.board_states['bedroom'] = self.web_states['bedroom']
 
         return render('index.html', states=self.web_states)
-
-    @cherrypy.expose
-    def switch0(self, *args, **kwargs):
-        """Toggle first relay"""
-        self.ser.write('0'.encode())
-        return render('index.html')
-
-    @cherrypy.expose
-    def switch1(self, *args, **kwargs):
-        """Toggle second relay"""
-        self.ser.write('1'.encode())
-        return render('index.html')
-
-    @cherrypy.expose
-    def switch_all(self, *args, **kwargs):
-        """Toggle both relays"""
-        self.ser.write('0'.encode())
-        self.ser.write('1'.encode())
-        return render('index.html')
 
 def main(port, ip_addr):
     """start the server"""
@@ -79,6 +65,7 @@ def main(port, ip_addr):
     conf = {'/public': {'tools.staticdir.on': True,
                         'tools.staticdir.dir': os.path.join(current_dir, 'templates/public')}}
     cherrypy.quickstart(Control(port), '/' , config=conf)
+
 
 if __name__ == '__main__':
     port = sys.argv[1]
