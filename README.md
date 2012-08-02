@@ -7,15 +7,17 @@ Required Software
 - Python 3
 - CherryPy
 - Mako
-- PySerial
+- PySerial (if using an Arduino)
+- RPi.GPIO (if using a RaspberryPi)
 
 Additional Hardware
 -------------------
-- Arduino
+- Arduino or RaspberryPi
 - Relays
 
 Arduino Pin Configuration
 -------------------------
+This can be changed by modifying relay_control.ino
 - Power 5V connected to Relay VCC
 - Digital GND connected to Relay GND
 - Digital 3 connected to Relay 1 IN
