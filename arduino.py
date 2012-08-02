@@ -26,7 +26,7 @@ import serial
 
 import hardware
 
-class Pin():
+class Pin(hardware.Pin):
     """Pin class allows control over specific hardware
     "pin".
     """
