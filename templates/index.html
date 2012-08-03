@@ -15,35 +15,87 @@
                 <h3 align="center">
                     Lamps
                 </h3>
-                <form action="toggle" method="post">
-                    <div data-role="fieldcontain">
-                        <fieldset data-role="controlgroup" data-type="vertical">
-                            <input name="checkbox1" id="checkbox1" 
-                                    type="checkbox" value="true" 
-                                % if states['living']:    
-                                    checked="yes" 
-                                % endif
-                            />
-                            <label for="checkbox1">
-                                Living Room
-                            </label>
-                            <input name="checkbox2" id="checkbox2" 
-                                    type="checkbox" value="true" 
-                                % if states['bedroom']:
-                                    checked="yes"
-                                % endif
-                            />
-                            <label for="checkbox2">
-                                Bedroom
-                            </label>
-                        </fieldset>
-                    </div>
-                    <input type="submit" value="Submit">
-               </form> 
+                <div id="switches">
+                    <form action="index" method="post">
+                        <div data-role="fieldcontain">
+                            <fieldset data-role="controlgroup" data-type="vertical">
+                                <table border="0" width="95%">
+                                    <tr>
+                                        <td>
+                                            <label for="toggleswitch0">
+                                                Living Room
+                                            </label>
+                                        </td>
+                                        <td class="text-align-right">
+                                            <select class="switch" name="toggleswitch0"
+                                                    id="toggleswitch0" data-theme="" data-role="slider">
+                                                <option value="off"
+                                                % if not states['living']:
+                                                    selected="selected"
+                                                % endif
+                                                >
+                                                    Off
+                                                </option>
+                                                <option value="on"
+                                                % if states['living']:
+                                                    selected="selected"
+                                                % endif
+                                                >
+                                                    On
+                                                </option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <label for="toggleswitch1">
+                                                Bedroom
+                                            </label>
+                                        </td>
+                                        <td class="text-align-right">
+                                            <select class="switch" name="toggleswitch1"
+                                                    id="toggleswitch1" data-theme="" data-role="slider">
+                                                <option value="off"
+                                                % if not states['bedroom']:
+                                                    selected="selected"
+                                                % endif
+                                                >
+                                                    Off
+                                                </option>
+                                                <option value="on"
+                                                % if states['bedroom']:
+                                                    selected="selected"
+                                                % endif
+                                                >
+                                                    On
+                                                </option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </fieldset>
+                        </div>
+                   </form>
+                </div>
             </div>
         </div>
         <script>
-            //App custom javascript
+            $(document).bind('pageinit', function() {
+                function submit() {
+                    $.ajax({
+                        type: "POST",
+                        url: "index",
+                        data: $("#switches form").serializeArray(),
+                        success: function(){
+                            return false;
+                        }
+                    });
+                    return false;
+                }
+                $('.switch').change(function(){
+                    submit();
+                });
+            });
         </script>
     </body>
 </html>
