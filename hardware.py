@@ -3,10 +3,10 @@
 Has a PinDealer class that keeps track of available
 "pins" to control.  When PinDealer.get_pin() is called,
 a Pin instance is returned.  The Pin instance
-has enable, disable, and toggle methods on it. When 
+has enable, disable, and toggle methods on it. When
 the Pin instance is no longer needed, the close method
 should be used to return the "pin" to the PinDealer's
-pool of available pins.  This pattern should be followed 
+pool of available pins.  This pattern should be followed
 by other hardware modules for use in the controller.
 
 This is the base class from which other hardware
@@ -55,13 +55,12 @@ class Pin:
             self.disable()
         else:
             self.enable()
-        self._enabled = not self._enabled
 
 class PinDealer:
     """Distribues available pins for use.  When get_pin() is called,
     returns a Pin instance.  If no  pins are available, returns None.
     """
-    def __init__(self, available):
+    def __init__(self, available, port=None):
         """Set a list of available pins that can be used to create
         Pin instances.  Subclass should specify _return_class.
         """

@@ -6,10 +6,10 @@ hardware.py.
 Has a PinDealer class that keeps track of available
 "pins" to control.  When PinDealer.get_pin() is called,
 a Pin instance is returned.  The Pin instance
-has enable, disable, and toggle methods on it. When 
+has enable, disable, and toggle methods on it. When
 the Pin instance is no longer needed, the close method
 should be used to return the "pin" to the PinDealer's
-pool of available pins.  This pattern should be followed 
+pool of available pins.  This pattern should be followed
 by other hardware modules for use in the controller.
 
 Because a serial interface has to be used with each "pin",
@@ -49,12 +49,12 @@ class Pin(hardware.Pin):
         super().disable()
 
 class PinDealer(hardware.PinDealer):
-        """Returns a Pin obejct if a pin is available, else None.
-        If a pin is specified, using its on/off string tuple, and 
-        available, a Pin is returned.  If the requested number is 
-        unavailable, None is returned.
-        """
-    def __init__(self, available, port)
+    """Returns a Pin obejct if a pin is available, else None.
+    If a pin is specified, using its on/off string tuple, and
+    available, a Pin is returned.  If the requested number is
+    unavailable, None is returned.
+    """
+    def __init__(self, available, port):
         """Set a list of available on/off tuples that can be used
         to create Pin instances.
         """

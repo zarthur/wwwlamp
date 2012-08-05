@@ -23,6 +23,11 @@ This can be changed by modifying relay_control.ino
 - Digital 3 connected to Relay 1 IN
 - Digital 5 connected to Relay 2 IN
 
+RaspberryPi Configuration
+-------------------------
+See http://elinux.org/RPi_Low-level_peripherals for
+pin details.
+
 Files
 -----
 - server.py - Python file to connect to Arduino and setup webserver
