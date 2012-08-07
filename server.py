@@ -2,15 +2,13 @@
 
 import argparse
 import os
-import sys
 
 import cherrypy
-import serial
 
-from mako.template import Template
 from mako.lookup import TemplateLookup
 
 lookup = TemplateLookup(directories=['templates'])
+
 
 def import_rasperrypi():
     """Import RaspberryPi hardware module"""
@@ -18,17 +16,20 @@ def import_rasperrypi():
     available_pins = [7, 8]
     return hardware, available_pins
 
+
 def import_arduino():
     """Import Arduino hardware module"""
     import arduino as hardware
     available_pins = [('0', '1'), ('o', 'c')]
     return hardware, available_pins
 
+
 def render(*args, **kwargs):
     """shortcut render function for use with mako"""
     page = args[0]
     tmpl = lookup.get_template(page)
     return tmpl.render(**kwargs)
+
 
 class Control(object):
     """Class defining structure of website and providing
@@ -72,6 +73,7 @@ class Control(object):
 
         return render('index.html', states=self.web_states)
 
+
 def main(hardware, available_pins, port, ip_addr, ip_port=8080):
     """start the server"""
     current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -80,14 +82,14 @@ def main(hardware, available_pins, port, ip_addr, ip_port=8080):
     conf = {'/public': {'tools.staticdir.on': True,
                         'tools.staticdir.dir': os.path.join(current_dir,
                                                 'templates/public')}}
-    cherrypy.quickstart(Control(hardware, available_pins, port), '/' ,
+    cherrypy.quickstart(Control(hardware, available_pins, port), '/',
                         config=conf)
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Start wwwlamp server')
     parser.add_argument('device',
-                        help='port of device to use; for Arduino use '\
+                        help='port of device to use; for Arduino use '
                             '"/dev/ttyACM0", for RaspberryPi, use "RPi"',
                         default='RPi')
 

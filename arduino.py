@@ -26,6 +26,7 @@ import serial
 
 import hardware
 
+
 class Pin(hardware.Pin):
     """Pin class allows control over specific hardware
     "pin".
@@ -35,7 +36,7 @@ class Pin(hardware.Pin):
         to a disabled state.
         """
         self._ser = dealer.get_ser()
-        self._disable, self._enable  = pin
+        self._disable, self._enable = pin
         super().__init__(pin, dealer)
 
     def enable(self):
@@ -47,6 +48,7 @@ class Pin(hardware.Pin):
         """Disables the pin"""
         self._ser.write(self._disable.encode())
         super().disable()
+
 
 class PinDealer(hardware.PinDealer):
     """Returns a Pin obejct if a pin is available, else None.

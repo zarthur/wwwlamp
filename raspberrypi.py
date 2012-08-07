@@ -24,6 +24,7 @@ import hardware
 
 GPIO.setmode(GPIO.BCM)
 
+
 class Pin(hardware.Pin):
     """Pin class allows control over specific hardware
     pin.
@@ -46,6 +47,7 @@ class Pin(hardware.Pin):
         GPIO.output(self._pin, False)
         super().disable()
 
+
 class PinDealer(hardware.PinDealer):
     """Returns a Pin obejct if a pin is available, else None.
     If a pin is specified and available, a Pin with the requested
@@ -58,4 +60,3 @@ class PinDealer(hardware.PinDealer):
         """
         self._return_class = Pin
         super().__init__(pin_number)
-

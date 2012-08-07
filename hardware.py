@@ -13,6 +13,7 @@ This is the base class from which other hardware
 classes should inherit.
 """
 
+
 class Pin:
     """Pin class allows control over specific hardware
     pin.
@@ -55,6 +56,7 @@ class Pin:
             self.disable()
         else:
             self.enable()
+
 
 class PinDealer:
     """Distribues available pins for use.  When get_pin() is called,
