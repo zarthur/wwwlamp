@@ -16,7 +16,7 @@
                     Lamps
                 </h3>
                 <div id="switches">
-                    <form action="index" method="post">
+                    <form action="index" method="get">
                         <div data-role="fieldcontain">
                             <fieldset data-role="controlgroup" data-type="vertical">
                                 <table border="0" width="95%">
@@ -83,7 +83,7 @@
             $(document).bind('pageinit', function() {
                 function submit() {
                     $.ajax({
-                        type: "POST",
+                        type: "GET",
                         url: "index",
                         data: $("#switches form").serializeArray(),
                         success: function(){
