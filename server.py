@@ -48,6 +48,7 @@ class Control(object):
     @cherrypy.expose
     def index(self, *args, **kwargs):
         """index for site"""
+        cherrypy.response.headers['Cache-Control'] = "no-cache"
         if kwargs:
             switch0 = kwargs.get('toggleswitch0', 'off')
             switch1 = kwargs.get('toggleswitch1', 'off')
