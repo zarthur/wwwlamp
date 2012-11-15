@@ -74,6 +74,10 @@ class Control(object):
 
         return render('index.html', states=self.web_states)
 
+    @cherrypy.expose
+    def status(self):
+        return render('status.html', status=self.board_states)
+
 
 def main(hardware, available_pins, port, ip_addr, ip_port=8080):
     """start the server"""
