@@ -39,11 +39,13 @@ class Pin(hardware.Pin):
 
     def enable(self):
         """Enables the pin"""
+        self._check_open()
         GPIO.output(self._pin, True)
         super().enable()
 
     def disable(self):
         """Disables the pin"""
+        self._check_open()
         GPIO.output(self._pin, False)
         super().disable()
 

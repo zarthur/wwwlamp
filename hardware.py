@@ -22,6 +22,7 @@ class Pin:
         """Initializes instance and sets pin to disabled
         state.
         """
+        self._closed = False
         self._pin = pin
         self._dealer = dealer
         self.disable()
@@ -35,19 +36,26 @@ class Pin:
         """Returns pin to PinDealer's pool of available pins
         and disables functionality of the Pin instance.
         """
-        self.dealer.add_pin(self._pin)
-        del_attributes = [x for x in dir(self) if not x.startswith('__')]
-        for attribute in del_attributes:
-            self.__delattr__(attribute)
+        if self._closed:
+            return
+        self.disable()
+        self._dealer.add_pin(self._pin)
+        self._closed = True
+
+    def _check_open(self):
+        if self._closed:
+            raise RuntimeError('Pin is closed')
 
     def disable(self):
         """Sets _enabled to False.  Functionality should be defined
         in subclass."""
+        self._check_open()
         self._enabled = False
 
     def enable(self):
-        """Sets _enabled to False.  Functionality should be defined
+        """Sets _enabled to True. Functionality should be defined
         in subclass."""
+        self._check_open()
         self._enabled = True
 
     def toggle(self):
