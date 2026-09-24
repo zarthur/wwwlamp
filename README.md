@@ -4,7 +4,7 @@ Control lamps (and other things) from a browser.
 
 Required Software
 -----------------
-- Python 3
+- Python 3.14 (recommended; Python 3.12 is also tested)
 - CherryPy
 - Mako
 - PySerial (if using an Arduino)
@@ -43,13 +43,20 @@ Files
 Running locally or on two machines
 ---------------------------------
 
-Install the shared dependencies in a virtual environment (Python 3.9+):
+Install the shared dependencies in a virtual environment using Python 3.14:
 
 ```sh
-python3 -m venv .venv
+python3.14 -m venv .venv
 . .venv/bin/activate
 pip install -r requirements.txt
 ```
+
+The `.python-version` file selects Python 3.14 for tools that support it. Use the
+latest available 3.14 patch release (3.14.7 as of September 24, 2026). CI tests
+Python 3.12 and 3.14, including the separate-process integration suite. When
+upgrading an existing installation, create a fresh virtual environment with
+Python 3.14 and reinstall dependencies; an existing environment retains its
+original interpreter.
 
 Only the hardware-owning machine needs `pyserial` for Arduino or `RPi.GPIO`
 for a compatible Raspberry Pi. The web-only machine needs neither. The
