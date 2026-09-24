@@ -18,7 +18,7 @@ an additional "ser" Serial object to Pin instances.
 
 Because pins are controlled via different strings, an
 available pin and used pin should be a tuple.  Thus,
-an example of available pins: [('0', '1'), ('o', 'c')],
+an example of available pins: [('0', '1'), ('c', 'o')],
 with the disabling string first.
 """
 
@@ -41,13 +41,19 @@ class Pin(hardware.Pin):
 
     def enable(self):
         """Enables the pin"""
-        self._ser.write(self._enable.encode())
+        self._write(self._enable)
         super().enable()
 
     def disable(self):
         """Disables the pin"""
-        self._ser.write(self._disable.encode())
+        self._write(self._disable)
         super().disable()
+
+    def _write(self, command):
+        self._check_open()
+        data = command.encode()
+        if self._ser.write(data) != len(data):
+            raise IOError('Incomplete serial write')
 
 
 class PinDealer(hardware.PinDealer):
@@ -60,7 +66,7 @@ class PinDealer(hardware.PinDealer):
         """Set a list of available on/off tuples that can be used
         to create Pin instances.
         """
-        self._ser = serial.Serial(port, 9600)
+        self._ser = serial.Serial(port, 9600, write_timeout=3)
         self._return_class = Pin
         super().__init__(available)
 

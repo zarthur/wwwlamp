@@ -1,101 +1,28 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <%include file='head_base.html'/>
         <title>Controller</title>
     </head>
     <body>
-        <div data-role="page" id="page1">
-            <div data-theme="a" data-role="header">
-                <h2>
-                    wwwlamp
-                </h2>
-            </div>
-            <div data-role="content" style="padding: 10px">
-                <h3 align="center">
-                    Lamps
-                </h3>
-                <div id="switches">
-                    <form action="index" method="post">
-                        <div data-role="fieldcontain">
-                            <fieldset data-role="controlgroup" data-type="vertical">
-                                <table border="0" width="95%">
-                                    <tr>
-                                        <td>
-                                            <label for="toggleswitch0">
-                                                Living Room
-                                            </label>
-                                        </td>
-                                        <td class="text-align-right">
-                                            <select class="switch" name="toggleswitch0"
-                                                    id="toggleswitch0" data-theme="" data-role="slider">
-                                                <option value="off"
-                                                % if not states['living']:
-                                                    selected="selected"
-                                                % endif
-                                                >
-                                                    Off
-                                                </option>
-                                                <option value="on"
-                                                % if states['living']:
-                                                    selected="selected"
-                                                % endif
-                                                >
-                                                    On
-                                                </option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <label for="toggleswitch1">
-                                                Bedroom
-                                            </label>
-                                        </td>
-                                        <td class="text-align-right">
-                                            <select class="switch" name="toggleswitch1"
-                                                    id="toggleswitch1" data-theme="" data-role="slider">
-                                                <option value="off"
-                                                % if not states['bedroom']:
-                                                    selected="selected"
-                                                % endif
-                                                >
-                                                    Off
-                                                </option>
-                                                <option value="on"
-                                                % if states['bedroom']:
-                                                    selected="selected"
-                                                % endif
-                                                >
-                                                    On
-                                                </option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </fieldset>
-                        </div>
-                   </form>
+        <header><h1>wwwlamp</h1></header>
+        <main>
+            <h2>Lamps</h2>
+            <p id="connection" role="status">${error or ""}</p>
+            <button id="refresh-status" type="button">Refresh status</button>
+            <form id="switches" action="index" method="post">
+                % for room, label, field in [('living', 'Living Room', 'toggleswitch0'), ('bedroom', 'Bedroom', 'toggleswitch1')]:
+                <div class="lamp">
+                    <label for="${field}">${label}</label>
+                    <select class="switch" name="${field}" id="${field}">
+                        % for value, title, state in [('unknown', 'Unknown', None), ('off', 'Off', False), ('on', 'On', True)]:
+                        <option value="${value}" ${'selected' if states[room] is state else ''} ${'disabled' if state is None else ''}>${title}</option>
+                        % endfor
+                    </select>
                 </div>
-            </div>
-        </div>
-        <script>
-            $(document).bind('pageinit', function() {
-                function submit() {
-                    $.ajax({
-                        type: "POST",
-                        url: "index",
-                        data: $("#switches form").serializeArray(),
-                        success: function(){
-                            return false;
-                        }
-                    });
-                    return false;
-                }
-                $('.switch').change(function(){
-                    submit();
-                });
-            });
-        </script>
+                % endfor
+            </form>
+        </main>
+        <script src="public/js/controller.js" defer></script>
     </body>
 </html>

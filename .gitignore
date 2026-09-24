@@ -28,3 +28,8 @@ pip-log.txt
 
 #vim files
 .*.swp
+
+.venv/
+.pytest_cache/
+__pycache__/
+.venv-upgrade/
