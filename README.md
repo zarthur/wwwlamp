@@ -155,3 +155,25 @@ service outages/recovery, and independent restarts. Before connecting real
 loads, verify both room mappings and on/off polarity on each supported board,
 then verify startup and graceful-shutdown behavior. Automated tests do not
 replace these physical checks.
+
+Dependency updates
+------------------
+
+The tested direct dependencies are CherryPy 18.10.0, Mako 1.4.3, and pytest
+9.1.1. Requirements allow compatible releases within each major version.
+Upgrade in a fresh virtual environment and run the integration tests before
+replacing a working deployment:
+
+```sh
+python3.14 -m venv .venv-upgrade
+. .venv-upgrade/bin/activate
+python -m pip install --upgrade -r requirements-dev.txt
+python -m pip check
+python -m pytest -q
+```
+
+The browser interface uses native HTML, CSS, and browser APIs (including fetch
+and AbortController), with no jQuery or jQuery Mobile dependency. Use a current
+browser. After UI changes, check commands, unavailable state, and recovery in a
+browser as well as running the Python tests. Board-specific libraries remain
+optional and require physical smoke tests when upgraded.
